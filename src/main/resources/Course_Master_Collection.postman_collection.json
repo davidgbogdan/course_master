@@ -1,0 +1,2582 @@
+{
+	"info": {
+		"_postman_id": "dae5859f-def4-48b3-a4c2-6ebbc2535015",
+		"name": "{Dev}School Homework",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10660393",
+		"_collection_link": "https://orange-meadow-73611.postman.co/workspace/Devschool-Team~6c70ba0a-1bbb-4f9f-8241-e386112bcc4d/collection/10660393-dae5859f-def4-48b3-a4c2-6ebbc2535015?action=share&source=collection_link&creator=10660393"
+	},
+	"item": [
+		{
+			"name": "Request Chain Testing",
+			"item": [
+				{
+					"name": "Create Student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"michaeljordan\",\r\n    \"password\": \"parolamichaeljordan\",\r\n    \"firstName\": \"michael\",\r\n    \"lastName\": \"jordan\",\r\n    \"phone\": \"0712345678\",\r\n    \"email\": \"michaeljordan@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Student Session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"console.log(\"Response JSON:\", jsonData);\r",
+									"\r",
+									"if (jsonData.jwt) {\r",
+									"    pm.environment.set(\"jwt\", jsonData.jwt);\r",
+									"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+									"} else {\r",
+									"    console.error(\"JWT not found in response\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"michaeljordan\",\r\n    \"password\": \"parolamichaeljordan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/students/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentUsername\": \"michaeljordan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/1/enrollments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"1",
+								"enrollments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Create Student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"michaeljordan\",\r\n    \"password\": \"parolamichaeljordan\",\r\n    \"firstName\": \"michael\",\r\n    \"lastName\": \"jordan\",\r\n    \"phone\": \"0712345678\",\r\n    \"email\": \"michaeljordan@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Student",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/students/johndoe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students",
+								"johndoe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get ALL Enrollments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNoYWVsam9yZGFuIiwicm9sZXMiOlsiU1RVREVOVCJdLCJpYXQiOjE3MTY4OTE0OTMsImV4cCI6MTcxNjg5MjA5M30.oD74IEdkim8Aq64qP7XVGEjL0BGz1cClpMYYB9wRZs0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/students/me/enrollments?status=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students",
+								"me",
+								"enrollments"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Enrollments By Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/students/me/enrollments?status=pending",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students",
+								"me",
+								"enrollments"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Student Session",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"michaeljordan\",\r\n    \"password\": \"parolamichaeljordan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/students/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"students",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teacher",
+			"item": [
+				{
+					"name": "Create Teacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"charlesxavier3\",\r\n    \"password\": \"parolacharlesxavier3\",\r\n    \"firstName\": \"charles3\",\r\n    \"lastName\": \"xavier3\",\r\n    \"phone\": \"0791837465\",\r\n    \"email\": \"charlesxavier3@gmail\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Teacher",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/teachers/charlesxavier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"teachers",
+								"charlesxavier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Teachers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Teacher's Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjg5MDk4OSwiZXhwIjoxNzE2ODkxNTg5fQ.xfq0SeCViWuXqvf4xTMx5ni8qrRx7Tq9KpzlhQQhFG8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/teachers/me/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"teachers",
+								"me",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Teacher Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"reedrichards\",\r\n    \"password\": \"parolareedrichards\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/teachers/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"teachers",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "Create Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjgzNTExNSwiZXhwIjoxNzE2ODM1NzE1fQ.i-GVKXq5qxZFLOTxnJ4FdksZa4N0ndvAaWNW6WxGiCc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"TestCourse7Security\",\r\n\t\"description\": \"Course to test security\",\r\n\t\"maxAttendees\": 30,\r\n\t\"schedules\": [\r\n\t\t{\r\n            \"name\": \"course\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"TUESDAY\",\r\n            \"startTime\": \"10:00\",\r\n            \"endTime\": \"12:00\"\r\n        },\r\n        {\r\n            \"name\": \"laboratory\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"WEDNESDAY\",\r\n            \"startTime\": \"13:00\",\r\n            \"endTime\": \"15:00\"\r\n        }\r\n\t]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/courses/{{id_course1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"{{id_course1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Courses",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/courses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNoYWVsam9yZGFuIiwicm9sZXMiOlsiU1RVREVOVCJdLCJpYXQiOjE3MTY4OTAxMzMsImV4cCI6MTcxNjg5MDczM30.6r1Xf-vCsuYjv_t8lH9k1CAonvSxt6ZOyjkMrZ7Ccdo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentUsername\": \"michaeljordan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/1/enrollments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"1",
+								"enrollments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enroll Action",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjg5MDk4OSwiZXhwIjoxNzE2ODkxNTg5fQ.xfq0SeCViWuXqvf4xTMx5ni8qrRx7Tq9KpzlhQQhFG8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentUsername\": \"michaeljordan\",\r\n    \"action\": \"approve\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/202/enrollment-actions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"202",
+								"enrollment-actions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Grade Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjg5MDk4OSwiZXhwIjoxNzE2ODkxNTg5fQ.xfq0SeCViWuXqvf4xTMx5ni8qrRx7Tq9KpzlhQQhFG8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentUsername\": \"michaeljordan\",\r\n    \"finalGrade\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/202/grades",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"202",
+								"grades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw Student",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjg5MDIzNSwiZXhwIjoxNzE2ODkwODM1fQ.CnRnjVxv0RZv0c8w45EpMJagjapKQvk-uydH4R0pCoc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"studentUsername\": \"michaeljordan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8010/courses/202/enrollments/withdrawals",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"202",
+								"enrollments",
+								"withdrawals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get ALL Enrollments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWVkcmljaGFyZHMiLCJyb2xlcyI6WyJURUFDSEVSIl0sImlhdCI6MTcxNjg5MDk4OSwiZXhwIjoxNzE2ODkxNTg5fQ.xfq0SeCViWuXqvf4xTMx5ni8qrRx7Tq9KpzlhQQhFG8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/courses/202/enrollments?status=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"202",
+								"enrollments"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Enrollments By Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8010/courses/202/enrollments?status=pending",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8010",
+							"path": [
+								"courses",
+								"202",
+								"enrollments"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Presentation Flow",
+			"item": [
+				{
+					"name": "Create Students & Teachers",
+					"item": [
+						{
+							"name": "Create Student Peter Parker",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.username) {\r",
+											"    pm.environment.set(\"username_peterparker\", jsonData.username);\r",
+											"    console.log(\"Username set in environment:\", jsonData.username);\r",
+											"} else {\r",
+											"    console.error(\"Username not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"peterparker\",\r\n    \"password\": \"parolapeterparker\",\r\n    \"firstName\": \"peter\",\r\n    \"lastName\": \"parker\",\r\n    \"phone\": \"0712345678\",\r\n    \"email\": \"peterparker@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Student Silver Surfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.username) {\r",
+											"    pm.environment.set(\"username_silversurfer\", jsonData.username);\r",
+											"    console.log(\"Username set in environment:\", jsonData.username);\r",
+											"} else {\r",
+											"    console.error(\"Username not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"silversurfer\",\r\n    \"password\": \"parolasilversurfer\",\r\n    \"firstName\": \"silver\",\r\n    \"lastName\": \"surfer\",\r\n    \"phone\": \"0712345678\",\r\n    \"email\": \"silversurfer@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Student Bruce Banner",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.username) {\r",
+											"    pm.environment.set(\"username_brucebanner\", jsonData.username);\r",
+											"    console.log(\"Username set in environment:\", jsonData.username);\r",
+											"} else {\r",
+											"    console.error(\"Username not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"brucebanner\",\r\n    \"password\": \"parolabrucebanner\",\r\n    \"firstName\": \"bruce\",\r\n    \"lastName\": \"banner\",\r\n    \"phone\": \"0712345678\",\r\n    \"email\": \"brucebanner@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Teacher Reed Richards",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.username) {\r",
+											"    pm.environment.set(\"username_reedrichards\", jsonData.username);\r",
+											"    console.log(\"Username set in environment:\", jsonData.username);\r",
+											"} else {\r",
+											"    console.error(\"Username not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"reedrichards\",\r\n    \"password\": \"parolareedrichards\",\r\n    \"firstName\": \"reed\",\r\n    \"lastName\": \"richards\",\r\n    \"phone\": \"0791837465\",\r\n    \"email\": \"reedrichards@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/teachers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Teacher Otto Octavius",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.username) {\r",
+											"    pm.environment.set(\"username_ottooctavius\", jsonData.username);\r",
+											"    console.log(\"Username set in environment:\", jsonData.username);\r",
+											"} else {\r",
+											"    console.error(\"Username not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ottooctavius\",\r\n    \"password\": \"parolaottooctavius\",\r\n    \"firstName\": \"otto\",\r\n    \"lastName\": \"octavius\",\r\n    \"phone\": \"0791837465\",\r\n    \"email\": \"ottooctavius@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/teachers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Sessions",
+					"item": [
+						{
+							"name": "Create Student Session Peter Parker",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.jwt) {\r",
+											"    pm.environment.set(\"jwt_S_peterparker\", jsonData.jwt);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"peterparker\",\r\n    \"password\": \"parolapeterparker\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Student Session Silver Surfer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.jwt) {\r",
+											"    pm.environment.set(\"jwt_S_silversurfer\", jsonData.jwt);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"silversurfer\",\r\n    \"password\": \"parolasilversurfer\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Student Session Bruce Banner",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.jwt) {\r",
+											"    pm.environment.set(\"jwt_S_brucebanner\", jsonData.jwt);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"brucebanner\",\r\n    \"password\": \"parolabrucebanner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/students/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Teacher Session Reed Richards",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.jwt) {\r",
+											"    pm.environment.set(\"jwt_T_reedrichards\", jsonData.jwt);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"reedrichards\",\r\n    \"password\": \"parolareedrichards\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/teachers/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Teacher Session Otto Octavius",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.jwt) {\r",
+											"    pm.environment.set(\"jwt_T_ottooctavius\", jsonData.jwt);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.jwt);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"ottooctavius\",\r\n    \"password\": \"parolaottooctavius\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/teachers/sessions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers",
+										"sessions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Courses",
+					"item": [
+						{
+							"name": "Create Course 1 Otto Octavius",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.id) {\r",
+											"    pm.environment.set(\"id_course1\", jsonData.id);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.id);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Course1-OttoOctavius\",\r\n\t\"description\": \"Course to test security\",\r\n\t\"maxAttendees\": 2,\r\n\t\"schedules\": [\r\n\t\t{\r\n            \"name\": \"course\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"TUESDAY\",\r\n            \"startTime\": \"10:00\",\r\n            \"endTime\": \"12:00\"\r\n        },\r\n        {\r\n            \"name\": \"laboratory\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"WEDNESDAY\",\r\n            \"startTime\": \"13:00\",\r\n            \"endTime\": \"15:00\"\r\n        }\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Course 2 Otto Octavius",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.id) {\r",
+											"    pm.environment.set(\"id_course2\", jsonData.id);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.id);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Course2-OttoOctavius\",\r\n\t\"description\": \"Course for catching spiderman\",\r\n\t\"maxAttendees\": 2,\r\n\t\"schedules\": [\r\n\t\t{\r\n            \"name\": \"course\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"THURSDAY\",\r\n            \"startTime\": \"10:00\",\r\n            \"endTime\": \"12:00\"\r\n        },\r\n        {\r\n            \"name\": \"laboratory\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"FRIDAY\",\r\n            \"startTime\": \"13:00\",\r\n            \"endTime\": \"15:00\"\r\n        }\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Course 3 Reed Richards",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.id) {\r",
+											"    pm.environment.set(\"id_course3\", jsonData.id);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.id);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_reedrichards}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Course3-ReedRichards\",\r\n\t\"description\": \"Course for catching dr. doom\",\r\n\t\"maxAttendees\": 2,\r\n\t\"schedules\": [\r\n\t\t{\r\n            \"name\": \"course\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"THURSDAY\",\r\n            \"startTime\": \"10:00\",\r\n            \"endTime\": \"12:00\"\r\n        },\r\n        {\r\n            \"name\": \"laboratory\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"FRIDAY\",\r\n            \"startTime\": \"12:00\",\r\n            \"endTime\": \"16:00\"\r\n        }\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Course 4 S Peter Parker",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"console.log(\"Response JSON:\", jsonData);\r",
+											"\r",
+											"if (jsonData.id) {\r",
+											"    pm.environment.set(\"id_course1\", jsonData.id);\r",
+											"    console.log(\"JWT set in environment:\", jsonData.id);\r",
+											"} else {\r",
+											"    console.error(\"JWT not found in response\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Course-PeterParker\",\r\n\t\"description\": \"Course to test exception\",\r\n\t\"maxAttendees\": 2,\r\n\t\"schedules\": [\r\n\t\t{\r\n            \"name\": \"course\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"TUESDAY\",\r\n            \"startTime\": \"10:00\",\r\n            \"endTime\": \"12:00\"\r\n        },\r\n        {\r\n            \"name\": \"laboratory\",\r\n            \"startDate\": \"2023-01-11\",\r\n            \"endDate\": \"2023-06-01\",\r\n            \"weekDay\": \"WEDNESDAY\",\r\n            \"startTime\": \"13:00\",\r\n            \"endTime\": \"15:00\"\r\n        }\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Enroll Courses",
+					"item": [
+						{
+							"name": "Enroll Peter Parker to Course 1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Peter Parker to Course 2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course2}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course2}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Peter Parker to Course 3 OVERLAP",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course3}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course3}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Reed Richards T to Course 1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course3}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course3}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Silver Surfer to Course 1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_silversurfer}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Bruce Banner to Course 1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_brucebanner}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Enroll Actions",
+					"item": [
+						{
+							"name": "Enroll Action Course 1 Deny Peter Parker",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_peterparker}}\",\r\n    \"action\": \"deny\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollment-actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollment-actions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Action Course 1 Approve Peter Parker",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_peterparker}}\",\r\n    \"action\": \"approve\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollment-actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollment-actions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Action Course 1 Approve Silver Surfer By Student Peter Parker",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_silversurfer}}\",\r\n    \"action\": \"approve\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollment-actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollment-actions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Action Course 1 Approve Silver Surfer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_silversurfer}}\",\r\n    \"action\": \"approve\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollment-actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollment-actions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enroll Action Course 1 Approve Bruce Banner MAX CAPACITY",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_brucebanner}}\",\r\n    \"action\": \"approve\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollment-actions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollment-actions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Withdraw Course 1 Silver Surfer By Student Peter Parker",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_silversurfer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments/withdrawals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments",
+										"withdrawals"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Withdraw Course 1 Silver Surfer By Another Teacher Reed Richards",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_reedrichards}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_silversurfer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments/withdrawals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments",
+										"withdrawals"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Withdraw Course 1 Silver Surfer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_silversurfer}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments/withdrawals",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments",
+										"withdrawals"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Grade",
+					"item": [
+						{
+							"name": "Grade Student Peter Parker Course By Another Teacher Reed Richards",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_reedrichards}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_peterparker}}\",\r\n    \"finalGrade\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/grades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"grades"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Grade Student Peter Parker Course 1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"studentUsername\": \"{{username_peterparker}}\",\r\n    \"finalGrade\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/grades",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"grades"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Lists",
+					"item": [
+						{
+							"name": "Get Enrollments Course 1 by Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}/enrollments?status=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}",
+										"enrollments"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Teacher Otto Octavius Courses",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_T_ottooctavius}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/teachers/{{username_ottooctavius}}/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers",
+										"{{username_ottooctavius}}",
+										"courses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Enrollments Student Peter Parker by Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt_S_peterparker}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/students/me/enrollments?status=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"me",
+										"enrollments"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Student",
+					"item": [
+						{
+							"name": "Get Student Peter Parker",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/students/{{username_peterparker}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"{{username_peterparker}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Student Silver Surfer",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/students/{{username_silversurfer}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"{{username_silversurfer}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Student Bruce Banner",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/students/{{username_brucebanner}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students",
+										"{{username_brucebanner}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Students",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/students",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"students"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Course",
+					"item": [
+						{
+							"name": "Get Course 1",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course1}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Course 2",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course2}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course2}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Course 3",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/courses/{{id_course3}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses",
+										"{{id_course3}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Courses",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/courses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"courses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Teacher",
+					"item": [
+						{
+							"name": "Get Teacher Reed Richards",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/teachers/{{username_reedrichards}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers",
+										"{{username_reedrichards}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Teacher Otto Octavius",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/teachers/{{username_ottooctavius}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers",
+										"{{username_ottooctavius}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Teachers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8010/teachers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8010",
+									"path": [
+										"teachers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PRESENTATION CUSTOM REQUESTS",
+					"item": []
+				}
+			]
+		}
+	]
+}
